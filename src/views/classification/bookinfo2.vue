@@ -1,202 +1,200 @@
 <template>
-  <div class="list">
+  <div class="listcontent">
     <top class="top" :title="bookinfo.title" backgroundcolor="white" color="red" back="返回"></top>
-    <div class="box">
-      <div class="boxtop1"></div>
-      <div class="boxtop2">
-        <div class="boxleft">
-          <img class="img" :src="`http://statics.zhuishushenqi.com${cover}`" />
+            <div v-if="loading">
+          <van-loading />
+          <van-loading type="spinner" />
         </div>
-        <div class="boxright">
-          <div class="boxright1">{{bookinfo.title}}</div>
-          <div class="boxright2">
-            <span class="orange">{{bookinfo.author}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-            <span class="black">{{bookinfo.copyright}}</span>
+    <div class="list-content" v-if="!loading">
+      <div class="box">
+        <div class="boxtop1"></div>
+        <div class="boxtop2">
+          <div class="boxleft">
+            <img class="img" :src="`http://statics.zhuishushenqi.com${cover}`" />
           </div>
-          <div class="boxright3 black">共{{bookinfo.wordCount | wordParseInt}}万字</div>
-          <div class="boxright4 orange">开通VIP免广告></div>
-        </div>
-      </div>
-    </div>
-    <div class="score">
-      <div class="score1">
-        <p>
-          {{bookinfo.rating&&bookinfo.rating.score | wordToFixed}}
-          <van-rate v-model="value" allow-half void-icon="star" void-color="#eee" size="10px" />
-        </p>
-        <p class="smallword">{{bookinfo.rating&&bookinfo.rating.tip}}></p>
-      </div>
-      <div class="score2">
-        <p>{{bookinfo.retentionRatio}}%</p>
-        <p class="smallword">读者留存</p>
-      </div>
-      <div class="score3">
-        <p>{{bookinfo.latelyFollower | wordParseInt}}万</p>
-        <p class="smallword">最近人气</p>
-      </div>
-      <div class="score4">
-        <p>{{bookinfo.totalFollower | wordParseInt}}万</p>
-        <p class="smallword">累计人气</p>
-      </div>
-      <div></div>
-    </div>
-    <div class="Introduction">
-      <div class="Introduction1">简介</div>
-      <div class="Introduction2">
-        <span class="spance" v-for="(item ,index) in tags" :key="index">
-          <van-tag round>{{ item }}</van-tag>
-        </span>
-      </div>
-      <div id="i3" :class="wordShow" @click="show()">
-        {{bookinfo.longIntro}}
-        <van-icon v-show="flag" class="arrow" name="arrow-down" />
-      </div>
-    </div>
-
-    <div tag="div" class="line" @click="getPageCatalog">
-      <div class="catalog">
-        <div class>目录</div>
-        <div class="catalog2 vertical">{{bookinfo.lastChapter}}</div>
-        <div class="catalog3">
-          <van-icon class="vertical" size="12px" name="arrow" />
-        </div>
-      </div>
-    </div>
-    <transition class="v-enter v-leave-to v-enter-active v-leave-active v-leave v-leave-to">
-      <div class="pageHS" v-show="pageshow">
-        <div class="pageHI" @click="removePageCatalog"></div>
-        <div class="pageSH">
-          <div>目录</div>
-         <div  class="chapter"
-            v-for="(item,idx) in Catalog"
-            :key="idx"
-            >
-            <router-link
-            :to="'/read/'+idx"
-            tag="div"
-           
-           
-          >{{idx + 1}}.{{item.title}}</router-link>
-         </div>
-         
-        </div>
-      </div>
-    </transition>
- 
-    <div class="gray"></div>
-    <div class="essay">
-      <div class="essay1">
-        <span>热门长评</span>
-        <span>&nbsp;&nbsp;</span>
-        <span class="essayWord">共{{comment.length}}条</span>
-      </div>
-      <div class="essay2">
-        <van-icon name="edit" class="essayWord1" />写评论
-      </div>
-    </div>
-    <div class="comment">
-      <van-swipe style="height: 150px;" vertical :show-indicators="false" :autoplay="2000">
-        <van-swipe-item v-for="item in comment" :key="item.id">
-          <div class="comment1">
-            <img class="img1" :src="`http://statics.zhuishushenqi.com/${item.author.avatar}`" />
-            <!-- <img class="img" src="" alt=""> -->
-            <span class="nameWord">{{item.author.nickname}}</span>
-            <van-tag plain round>LV.{{item.author.lv}}</van-tag>
+          <div class="boxright">
+            <div class="boxright1">{{bookinfo.title}}</div>
+            <div class="boxright2">
+              <span class="orange">{{bookinfo.author}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+              <span class="black">{{bookinfo.copyright}}</span>
+            </div>
+            <div class="boxright3 black">共{{bookinfo.wordCount | wordParseInt}}万字</div>
+            <div class="boxright4 orange">开通VIP免广告></div>
           </div>
-          <div class="comment2">
-            <span></span>
-            <van-rate class="nameWord1" v-model="item.rating" />
+        </div>
+      </div>
+      <div class="score">
+        <div class="score1">
+          <p>
+            {{bookinfo.rating&&bookinfo.rating.score | wordToFixed}}
+            <van-rate v-model="value" allow-half void-icon="star" void-color="#eee" size="10px" />
+          </p>
+          <p class="smallword">{{bookinfo.rating&&bookinfo.rating.tip}}></p>
+        </div>
+        <div class="score2">
+          <p>{{bookinfo.retentionRatio}}%</p>
+          <p class="smallword">读者留存</p>
+        </div>
+        <div class="score3">
+          <p>{{bookinfo.latelyFollower | wordParseInt}}万</p>
+          <p class="smallword">最近人气</p>
+        </div>
+        <div class="score4">
+          <p>{{bookinfo.totalFollower | wordParseInt}}万</p>
+          <p class="smallword">累计人气</p>
+        </div>
+        <div></div>
+      </div>
+      <div class="Introduction">
+        <div class="Introduction1">简介</div>
+        <div class="Introduction2">
+          <span class="spance" v-for="(item ,index) in tags" :key="index">
+            <van-tag round>{{ item }}</van-tag>
+          </span>
+        </div>
+        <div id="i3" :class="wordShow" @click="show()">
+          {{bookinfo.longIntro}}
+          <van-icon v-show="flag" class="arrow" name="arrow-down" />
+        </div>
+      </div>
+
+      <div tag="div" class="line" @click="getPageCatalog">
+        <div class="catalog">
+          <div class>目录</div>
+          <div class="catalog2 vertical">{{bookinfo.lastChapter}}</div>
+          <div class="catalog3">
+            <van-icon class="vertical" size="12px" name="arrow" />
           </div>
-          <div class="comment3">{{item.content}}</div>
-        </van-swipe-item>
-      </van-swipe>
-    </div>
-    <div class="see">查看全部{{comment.length}}条评论</div>
-    <div class="gray"></div>
-    <div>
-      <div>作者其他作品</div>
-
-      <div class="xl"></div>
-    </div>
-    <div class="authorBooklist">
-      <!-- <div > -->
-      <router-link
-        :to="'/bookinfo2/'+item._id+'/'+item.author"
-        tag="div"
-        class="authorBooklist1"
-        v-for="item in authorBooklist"
-        :key="item.cover"
-      >
-        <div class="authorBooklist2">
-          <img class="img2" :src="`http://statics.zhuishushenqi.com${item.cover}`" />
-          <br />
         </div>
-
-        <div class="authorBooklist3">{{item.title}}</div>
-      </router-link>
-      <!-- </div> -->
-    </div>
-    <!-- <div>s</div> -->
-    <div class="gray"></div>
-    <div class="gray"></div>
-    <div>
-      <div>推荐书籍</div>
-
-      <div class="xl"></div>
-    </div>
-    <div class="authorBooklist">
-      <!-- <div > -->
-      <router-link
-        :to="'/bookinfo2/'+item._id+'/'+item.author"
-        tag="div"
-        class="authorBooklist1"
-        v-for="item in recommendBooklist"
-        :key="item.cover"
-      >
-        <div class="authorBooklist2">
-          <img class="img2" :src="`http://statics.zhuishushenqi.com${item.cover}`" />
-          <br />
+      </div>
+      <transition class="v-enter v-leave-to v-enter-active v-leave-active v-leave v-leave-to">
+        <div class="pageHS" v-show="pageshow">
+          <div class="pageHI" @click="removePageCatalog"></div>
+          <div class="pageSH">
+            <div>目录</div>
+            <div class="chapter" v-for="(item,idx) in Catalog" :key="idx">
+              <router-link :to="'/read/'+idx" tag="div">{{idx + 1}}.{{item.title}}</router-link>
+            </div>
+          </div>
         </div>
+      </transition>
 
-        <div class="authorBooklist3">{{item.title}}</div>
-      </router-link>
-      <!-- </div> -->
-    </div>
-    <div class="gray"></div>
-    <div>
+      <div class="gray"></div>
+      <div class="essay">
+        <div class="essay1">
+          <span>热门长评</span>
+          <span>&nbsp;&nbsp;</span>
+          <span class="essayWord">共{{comment.length}}条</span>
+        </div>
+        <div class="essay2">
+          <van-icon name="edit" class="essayWord1" />写评论
+        </div>
+      </div>
+      <div class="comment">
+        <van-swipe style="height: 150px;" vertical :show-indicators="false" :autoplay="2000">
+          <van-swipe-item v-for="item in comment" :key="item.id">
+            <div class="comment1">
+              <img class="img1" :src="`http://statics.zhuishushenqi.com/${item.author.avatar}`" />
+              <!-- <img class="img" src="" alt=""> -->
+              <span class="nameWord">{{item.author.nickname}}</span>
+              <van-tag plain round>LV.{{item.author.lv}}</van-tag>
+            </div>
+            <div class="comment2">
+              <span></span>
+              <van-rate class="nameWord1" v-model="item.rating" />
+            </div>
+            <div class="comment3">{{item.content}}</div>
+          </van-swipe-item>
+        </van-swipe>
+      </div>
+      <div class="see">查看全部{{comment.length}}条评论</div>
+      <div class="gray"></div>
       <div>
-        <h3>图书信息</h3>
+        <div>作者其他作品</div>
+
+        <div class="xl"></div>
       </div>
-      {{bookinfo.copyrightInfo}}
-      <div></div>
+      <div class="authorBooklist">
+        <!-- <div > -->
+        <router-link
+          :to="'/bookinfo2/'+item._id+'/'+item.author"
+          tag="div"
+          class="authorBooklist1"
+          v-for="item in authorBooklist"
+          :key="item.cover"
+        >
+          <div class="authorBooklist2">
+            <img class="img2" :src="`http://statics.zhuishushenqi.com${item.cover}`" />
+            <br />
+          </div>
+
+          <div class="authorBooklist3">{{item.title}}</div>
+        </router-link>
+        <!-- </div> -->
+      </div>
+      <!-- <div>s</div> -->
+      <div class="gray"></div>
+      <div class="gray"></div>
+      <div>
+        <div>推荐书籍</div>
+
+        <div class="xl"></div>
+      </div>
+      <div class="authorBooklist">
+        <!-- <div > -->
+        <router-link
+          :to="'/bookinfo2/'+item._id+'/'+item.author"
+          tag="div"
+          class="authorBooklist1"
+          v-for="item in recommendBooklist"
+          :key="item.cover"
+        >
+          <div class="authorBooklist2">
+            <img class="img2" :src="`http://statics.zhuishushenqi.com${item.cover}`" />
+            <br />
+          </div>
+
+          <div class="authorBooklist3">{{item.title}}</div>
+        </router-link>
+        <!-- </div> -->
+      </div>
+      <div class="gray"></div>
+      <div>
+        <div>
+          <h3>图书信息</h3>
+        </div>
+        {{bookinfo.copyrightInfo}}
+        <div></div>
+      </div>
+
+      <mt-tabbar v-show="flag" class="tabbar">
+        <mt-tab-item id class="bookf">
+          <div @click="addcase" class="tabline" tag="div">加入书架</div>
+        </mt-tab-item>
+        <mt-tab-item id class="read">
+          <router-link :to="'/read/'+0" class="tabline" tag="div">开始阅读</router-link>
+        </mt-tab-item>
+        <mt-tab-item id class="bookf">
+          <router-link to="/classification" class="tabline" tag="div">下载</router-link>
+        </mt-tab-item>
+      </mt-tabbar>
     </div>
-    <div>
-      <mt-tabbar v-show="flag" >
-      <mt-tab-item id="" class="bookf">
-        <router-link to="/Bookcase" tag="span">加入书架</router-link>
-      </mt-tab-item>
-      <mt-tab-item id=""  class="read">
-        <router-link :to="'/read/'+0" tag="div">开始阅读</router-link>
-      </mt-tab-item>
-      <mt-tab-item id="" class="bookf">
-        <router-link to="/classification" tag="span">命运</router-link>
-      </mt-tab-item>
-    </mt-tabbar>
-   </div>
-    <div class="s"></div>
- 
   </div>
 </template>
-<style lang="less">
+<style lang="less" scoped>
+.tabbar {
+  height: 40px;
+  border-color: red;
+}
+.tabline {
+  line-height: 40px;
+}
 .bookf {
   color: red;
 }
 .read {
   background-color: red;
   color: white;
-}
-.s {
-  height: 100px;
 }
 
 ::-webkit-scrollbar {
@@ -381,8 +379,12 @@
   vertical-align: middle;
   font-size: 12px;
 }
-.list {
+.listcontent {
   height: 100%;
+}
+.list-content {
+  height:calc(100% - 44px);
+  overflow: auto;
 }
 
 .catalog {
@@ -428,7 +430,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   font-size: 12px;
   margin-top: 15px;
@@ -444,7 +446,7 @@
   right: 5px;
   bottom: 0;
   z-index: 10;
-  top: 32px;
+  top: 24px;
 }
 .catalog3 i {
   top: 0;
@@ -546,11 +548,13 @@ export default {
       Catalog: [],
       comment: [],
       val: 1,
+      loading:true
     };
   },
   created() {
     this.getinfo();
     this.getCatalog();
+   
   },
   beforeDestroy() {
     this.saveData();
@@ -561,12 +565,10 @@ export default {
 
   methods: {
     getIdx(idx) {
-       var objidx = { 
-         objbookId:this.id,
-         objidx:idx
-
-
-       }
+      var objidx = {
+        objbookId: this.id,
+        objidx: idx
+      };
       this.$store.commit("getIdx", objidx);
     },
     getBookCatalogList() {
@@ -587,6 +589,28 @@ export default {
 
     getPageCatalog() {
       this.pageshow = true;
+    },
+      addcase() {
+      // const bookcaseobj={
+      //     bookId:this.$store.state.bookId,
+
+      // }
+
+      axios
+        .get(`https://novel.juhe.im/book-info/${this.$store.state.bookId}`)
+        .then(res => {
+          // this.bookcase = res.data;
+          const obj = {
+            _id: res.data._id,
+            cover: res.data.cover,
+            author: res.data.author,
+            title: res.data.title,
+            idx: 0
+          };
+          this.$store.commit("addcase", obj);
+          //    console.log(obj)
+          // console.log('bookcase'+res.data)
+        });
     },
     show() {
       this.flag = !this.flag;
@@ -614,17 +638,18 @@ export default {
             .then(res => {
               //  console.log(res)
               this.Catalog = res.data.chapters;
+               this.loading = false;
               console.log(this.Catalog);
             });
         });
     },
-    setTime(){
+    setTime() {
       setTimeout(() => {
-        this.flag=true
+        this.flag = true;
       }, 4000);
     },
     getinfo() {
-      console.log("1"+this.id)
+      console.log("1" + this.id);
       axios.get("https://novel.juhe.im/book-info/" + this.id).then(res => {
         // console.log(1)
         // console.log(res);
@@ -651,15 +676,8 @@ export default {
           this.comment = res.data.reviews;
           console.log(this.comment);
         });
-        this.setTime()
-        
+      this.setTime();
     }
   }
 };
 </script>
-<style lang="less" >
-.list {
-  // height: ;
-  overflow: auto;
-}
-</style>

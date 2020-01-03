@@ -1,10 +1,15 @@
 <template>
   <div class="list">
      <top class="top" title="书架" backgroundcolor="white" color="red" back="返回"></top>
+       <div v-if="loading">
+          <van-loading />
+          <van-loading type="spinner" />
+        </div>
+     <div v-if="!loading">
      <div class="selec">不积跬步，无以至千里；不积小流，无以成江海。　——荀况 </div>
    <router-link :to="'/read/'+this.idx" tag="div" class="selctop">继续阅读></router-link>
       <router-link :to="'/read/'+0" tag="div" class="selcbuttom">重新开始</router-link>
-      <!-- <router-link :to="'/read/'+0" tag="div" class="selcbook">前往书城</router-link> -->
+      </div>
     
       
  
@@ -34,6 +39,7 @@ export default {
       val: 1,
       flag:false,
       idx:this.$route.params.idx,
+      loading:true
     };
   },
   created() {
@@ -98,6 +104,7 @@ export default {
               //  console.log(res)
               this.Catalog = res.data.chapters;
               console.log(this.Catalog);
+              this.loading=false;
             });
         });
     },
@@ -141,7 +148,7 @@ export default {
 };
 </script>
 
-<style lang="less" >
+<style lang="less" scoped>
 .selec {
   margin-top: 100px;
   margin-bottom: 50px;

@@ -26,30 +26,31 @@
             </svg>
             <router-link to="/BookCity" tag="span">书城</router-link>
           </mt-tab-item>
-          <mt-tab-item id>
+          <!-- <mt-tab-item id>
             <svg class="icon icon_buttom" aria-hidden="true">
               <use xlink:href="#iconleimupinleifenleileibie1" />
             </svg>
             <router-link to="/classification" tag="span">分类</router-link>
-          </mt-tab-item>
-          <mt-tab-item id="我的">
-            <svg class="icon icon_buttom" aria-hidden="true">
-              <use xlink:href="#iconbusinesscard" />
-            </svg>
-            <router-link to="/PersonalCenter" tag="span">我的</router-link>
-          </mt-tab-item>
+          </mt-tab-item> -->
+       
           <mt-tab-item id="精选">
             <svg class="icon icon_buttom" aria-hidden="true">
               <use xlink:href="#iconfaxian" />
             </svg>
             <router-link to="/Finding" tag="span">发现</router-link>
           </mt-tab-item>
-          <mt-tab-item id="排行">
+             <mt-tab-item id="我的">
+            <svg class="icon icon_buttom" aria-hidden="true">
+              <use xlink:href="#iconbusinesscard" />
+            </svg>
+            <router-link to="/PersonalCenter" tag="span">我的</router-link>
+          </mt-tab-item>
+          <!-- <mt-tab-item id="排行">
             <svg class="icon icon_buttom" aria-hidden="true">
               <use xlink:href="#iconpaihang" />
             </svg>
             <router-link to="/ranking" tag="span">排行</router-link>
-          </mt-tab-item>
+          </mt-tab-item> -->
         </mt-tabbar>
       </div>
     </div>
@@ -188,7 +189,7 @@ export default {
   //监听路由的变化
   watch:{
 "$route.path"(newVal, oldVal){
-  var routerArr =[ '/BookCity','/Bookcase','/ranking','/classification','/PersonalCenter','/Finding','/'];
+  var routerArr =[ '/BookCity','/Bookcase','/PersonalCenter','/Finding','/'];
    if (routerArr.includes(newVal)) {
         this.flag = true;
       } else {

@@ -15,13 +15,7 @@
               <a class="mui-control-item" href="#">男频</a>
               <a class="mui-control-item" href="#">女频</a>
           <a class="mui-control-item" href="#">出版</a>
-          <!-- <a
-            :class="['mui-control-item',idx==0?'mui-active':'']"
-            v-for="(item,idx) in  booklists"
-            :key="item.id"
-            @click="toggle(item.id)"
-          >
-          {{item.gender}}</a> -->
+
         </div>
       </div>
     </div>
@@ -58,7 +52,7 @@
     </div>
   </div>
 </template>
-<style lang="less" escope>
+<style lang="less" scoped>
 .booklist-content {
    overflow: hidden;
   // position: relative;

@@ -1,162 +1,88 @@
 
   <template >
-  <van-tree-select  height="100%" :items="items" :main-active-index.sync="activeIndex">
-    <template slot="content">
-      <div class="navActive">
+  <div class="class-list">
+    <top class="top" title="分类" backgroundcolor="white" color="red"></top>
 
-        <div v-if="activeIndex === 0" >
-          <van-divider>女生</van-divider>
-          <div class="bookBox">
-            <div v-for="item in femalelist" :key="item.id" class="itembox">
-              <router-link :to="'/femaleclass/'+item.name+'/3'" class="gdyq">
-
-                <div class="wordBox">
-                  <h6>{{item.name}}</h6>
-                  <i>1{{item.bookCount}}本</i>
-                </div>
-                <div class="picBox">
-                  <img :src="`http://statics.zhuishushenqi.com${item.bookCover[0]}`" />
-                </div>
-                
-              </router-link>
-            </div>
-          </div>
-        </div>
-
-        <div v-if="activeIndex === 1">
-          <van-divider>男生</van-divider>
-          <div class="bookBox">
-            <div v-for="item in malelist" :key="item.id" class="itembox">
-              <router-link :to="'/maleclass/'+item.name+'/3'" class="gdyq">
-
-              <div class="wordBox">
-                <h6>{{item.name}}</h6>
-                <i>1{{item.bookCount}}本</i>
-                </div>
-
-                <div class="picBox">
-                <img :src="`http://statics.zhuishushenqi.com${item.bookCover[0]}`" />
-                </div>
-
-              </router-link>
-            </div>
-          </div>
-        </div>
-
-        <div v-if="activeIndex === 2">
-          <van-divider>幻想</van-divider>
-          <div class="bookBox">
-            <div v-for="item in picturelist" :key="item.id"  class="itembox">
-              <router-link :to="'/pictureclass/'+item.name+'/3'" class="gdyq">
-               
-                <div class="wordBox">
-                  <h6>{{item.name}}</h6>
-                  <i>{{item.bookCount}}本</i>
-                </div>
-
-                <div class="picBox">
-                  <img :src="`http://statics.zhuishushenqi.com${item.bookCover[0]}`" />
-                </div>
-              </router-link>
-            </div>
-          </div>
-        </div>
-
-        <div v-if="activeIndex === 3">
-          <van-divider>社会</van-divider>
-
-          <div class="bookBox">
-            <div v-for="item in presslist" :key="item.id"  class="itembox">
-              <router-link :to="'/pressclass/'+item.name+'/3'" class="gdyq">
-
-              <div class="wordBox">
-                <h6>{{item.name}}</h6>
-                <i>{{item.bookCount}}本</i>
-                </div>
-
-                <div class="picBox">
-                <img :src="`http://statics.zhuishushenqi.com${item.bookCover[0]}`" />
-                </div>
-              </router-link>
+    <div class="class-content">
+      <van-sidebar v-model="activeKey" class="class-one">
+        <van-sidebar-item title="男生" @click="getList(1)" />
+        <van-sidebar-item title="女生" @click="getList(2)" />
+        <van-sidebar-item title="出版" @click="getList(3)" />
+        <van-sidebar-item title="动漫" @click="getList(4)" />
+      </van-sidebar>
+      <div class="class-two">
+        <div class="one-class" v-for="item in list" :key="item.id" :title="item.title">
+          <router-link :to="'/classlist/'+item.name+'/'+classname" tag="div" class="oneclassnext1">
+            <img class="classimg" :src="`http://statics.zhuishushenqi.com${item.bookCover[0]}`" />
+          </router-link>
+          <div class="oneclassnext2">
+            <div class="classname">
+              <p>{{item.name}}</p>
+              <p>{{item.bookCount}}</p>
             </div>
           </div>
         </div>
       </div>
-    </template>
-  </van-tree-select>
+    </div>
+  </div>
 </template>
 
-
-
-<style lang="less">
-.van-tree-select>.van-tree-select__nav{
-  width: 33%
+<style lang="less" scoped>
+img {
+  padding: 0;
 }
-.booklist {
-  position: relative;
+.class-list {
   height: 100%;
+}
+.class-content {
+  width: 100%;
+  height:100%;
+  display: flex;
+  flex-direction: row;
   overflow: auto;
 }
-
-.navActive {
-  border-left: 1px solid #ccc;
-  margin: auto;
+.class-one {
+  background-color: #fff;
+  flex: 2;
 }
-
-.bookBox{
+.class-two {
+  // width: 100%;
+  padding-top: 10px;
+  height: 100%;
+  overflow: auto;
+  flex: 11;
   display: flex;
-  flex-flow: wrap;
-  width: 100%;
-  margin-left: 0;
-
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
 }
-.itembox{
-  margin:2px;
-  width: 48%
+.classimg {
+  height: 90px;
+  width: 70px;
 }
-.gdyq {
-  // width: 180px;
-  height: 60px;
+.one-class {
+  // height: 100px;
+  overflow: hidden;
+  width: 50%;
   display: flex;
-  flex-flow: wrap;
-  background-color: rgb(250, 245, 247);
-}
-.wordBox{
-  width: 60%;
-  height: 60px;
-  flex: 1;
-  line-height: 60px;
-  position: relative;
-}
-.wordBox>h6{
-  color: black;
-  margin-bottom: 0px;
-  margin-top: 10px;
-}
-i{
-  font-size: 8px;
-  color: rgba(164, 168, 168, 0.788);
-  position: absolute;
-  top: 10px;
-  margin-left: -50%;
-  text-align: center;
-  height: 20px;
 
+  flex-direction: row;
+
+  // align-content:flex-start
 }
-img {
+.classname {
   height: 50px;
-  width: 100%;
-  margin-top: 5px;
-  margin-right: 2px
+  margin-top: 20px;
 }
-.picBox{
-  width: 37%;
-  height: 60px;
-  
+.oneclassnext1 {
+  flex: 1;
+  margin-bottom: 10px;
+}
+.oneclassnext2 {
+  // padding-top: 30px;
+  flex: 1;
 }
 </style>
-
-
 
 <script>
 import Vue from "vue";
@@ -167,38 +93,48 @@ import axios from "axios";
 export default {
   data() {
     return {
-      activeIndex: 0,
-      items: [
-        { text: "女生" },
-        { text: "男生" },
-        { text: "幻想" },
-        { text: "社会" }
-      ],
       femalelist: [],
       malelist: [],
       picturelist: [],
-      presslist: []
+      presslist: [],
+      activeKey: 0,
+      list: [],
+      classname: "male"
     };
   },
+
   created() {
-    this.getData();
+    this.getData(1);
   },
   methods: {
-    getData() {
+    getData(id) {
       axios.get("https://novel.juhe.im/categories").then(reg => {
-        // console.log(1);
-        // console.log(reg);
         this.femalelist = reg.data.female;
         this.malelist = reg.data.male;
         this.picturelist = reg.data.picture;
         this.presslist = reg.data.press;
-        // console.log(this.booklist);
+        this.list = this.malelist;
+        console.log(this.malelist);
       });
-      //   axios.get("https://novel.juhe.im/category-info?major=同人").then(ret => {
-      //     console.log(1);
-      //     console.log(ret);
-
-      //   });
+    },
+    getList(id) {
+      this.list = [];
+      this.list = this.femalelist;
+      if (id == 1) {
+        this.classname = "male";
+        this.list = this.malelist;
+      } else if (id == 2) {
+        this.classname = "female";
+        this.list = [];
+        this.list = this.femalelist;
+      } else if (id == 3) {
+        this.classname = "press";
+        this.list = this.presslist;
+      } else if (id == 4) {
+        this.classname = "picture";
+        this.list = this.picturelist;
+      }
+      console.log(this.list);
     }
   },
   mounted() {

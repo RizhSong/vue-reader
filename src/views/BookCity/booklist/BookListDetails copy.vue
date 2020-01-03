@@ -1,54 +1,63 @@
 <template>
-  <div class="container">
-    <div class="booktype">
-      <div id="slider" class="mui-slider mui-fullscreen">
-        <div
-          class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted"
-          style="height:45px;overflow:scroll;">
-          <div class="mui-scroll">
-            <a href="#" class="all active">{{this.major}}</a>
-            <span v-for="(item,i) in datalist" :key="i" class="itemBox">
-              <a href="#" class="book" @click.prevent="getSubclass(item)">{{item}}</a>
-            </span>
-          </div>
-        </div>
+  <div>
+    <!-- <div v-for="(item,idx) in bookslist" :key="idx">
+      <div>
+         <div>
+         图片：<img :src="`http://statics.zhuishushenqi.com${item.book.cover}`">
       </div>
-    </div>
-
-    <div class="contentText" v-if="show_box">
+      <div>
+     <router-link :to="'/bookinfo2/'+item.book._id+'/'+item.book.author">
+         <span> 标题：{{item.book.title}}</span>
+      </router-link>
+      </div>
+      <div>
+       <span>作者：{{item.book.author}}</span>
+      </div>
+      <div>
+       追书人数：{{item.book.latelyFollower}}
+        字数：{{item.book.wordCount}}
+      </div>
+      </div>
+      <div><span>推荐指数:{{item.comment}}</span> </div>
+      <div> <p>简介{{item.book.longIntro}}</p></div>
+     
+   </div>
+    </div> -->
+    
       <!-- <div class="mui-scroll-wrapper"> -->
         <!-- <div class="mui-scroll"> -->
           <div class="contentText-list">
-          <div v-for="(item,i) in sunlist " :key="i" tag="div" class="bookcase">
-            <router-link :to="'/bookinfo1/'+item._id+'/'+item.author" tag="div" class="booklist">
+          <div v-for="(item,idx) in bookslist" :key="idx" tag="div" class="bookcase">
+            <router-link :to="'/bookinfo1/'+item.book._id+'/'+item.book.author" tag="div" class="booklist">
               <div class="picbox">
-                <img :src="`http://statics.zhuishushenqi.com${item.cover}`" />
+               <img :src="`http://statics.zhuishushenqi.com${item.book.cover}`">
               </div>
               <div class="detailbox">
-                <div class="title">{{item.title}}</div>
+                <div class="title">{{item.book.title}}</div>
                 <br />
-                <div class="shortIntro">{{item.shortIntro}}</div>
-
+                <div class="shortIntro">
+               <p> {{item.book.longIntro}}</p>  
+                  
+                  </div>
                 <span class="image">
                   <img src="@/images/author.png" alt />
                 </span>
-                <span class="author">{{item.author}}</span>
+                <span class="author">{{item.book.author}}</span>
  
-                <span class="minorCate">{{item.minorCate}}</span>
+                <span class="minorCate">{{item.book.minorCate}}</span>
  
-                <span class="tag" >{{item.tags[0]}}</span>
+                <!-- <span class="tag" >{{item.book.tags[0]}}</span> -->
                 <br />
               </div>
             </router-link>
           </div>
-        <!-- </div> -->
-        <!-- </div> -->
+       
       </div>
     </div>
-  </div>
+  
 </template>
 
-<style lang="less" >
+<style lang="less" scoped>
 a{
   font-family: '微软雅黑'
 }
@@ -188,67 +197,43 @@ a{
   border-radius: 40% 40% 40% 40%;
   background-color: rgb(236, 207, 221);
 }
+
 </style>
 
 <script>
 import axios from "axios";
-import mui from "@/../lib/mui/js/mui.js";
 export default {
   data() {
     return {
-      major: this.$route.params.id,
-      num: 0,
-      sunlist: [],
-      active: 2,
-      datalist: [],
-      show_box: false
+      id: this.$route.params.id,
+      allinformation: {},
+      booklist: {}, // 书单列表
+      bookslist: {} // 书籍总和列表
     };
   },
   created() {
-    this.getStoryType();
-  },
-  mounted() {
-    mui(".mui-scroll-wrapper").scroll({
-      scrollX: true, //是否横向滚动
-      deceleration: 0.0005
-    });
+    this.getBookListDetails();
   },
   methods: {
-    ddd(id) {
-      console.log(id);
-    },
-    getSubclass(e) {
-      let cat = e || "";
+    getBookListDetails() {
+      axios.get("/booklists/" + this.id).then(res => {
+        this.allinformation = res.data;
+        // console.log(JSON.stringify(this.allinformation))
+        this.booklist = res.data.bookList;
+        console.log(JSON.stringify(this.booklist))
+        this.bookslist = res.data.bookList.books;
+        //  this.bookslist.array.forEach(element => {
+        //       return element.book ;
+        //       return element.comment;
+        //  });
+        // console.log(JSON.stringify(this.bookslist));
+        //  this.booklistnext = res.data.bookList
+        //   console.log(JSON.stringify(this.booklistnext))
+        // for(var i = 0; i<res.data.bookList.books){
 
-      this.show_box = false;
-      axios
-        .get(
-          `https://novel.juhe.im/category-info?gender=male&type=hot&major=${
-            this.major
-          }&minor=${cat}&start=${this.num}&limit=${this.num + 21}`
-        )
-        .then(res => {
-          this.num = this.num;
-          this.sunlist = [...res.data.books];
-          this.show_box = true;
-        });
-    },
-    getStoryType() {
-      // https://novel.juhe.im/sub-categories
-
-      axios.get(`https://novel.juhe.im/sub-categories`).then(res => {
-        this.datalist = res.data.male;
-        res.data.male.forEach(element => {
-          if (element.major == this.major) {
-            this.datalist = element.mins;
-          }
-        });
-        this.getSubclass();
-
-        // console.log(JSON.stringify(this.datalist),this.major)
+        // }
       });
     }
   }
 };
 </script>
-

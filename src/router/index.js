@@ -5,6 +5,7 @@ import BookCity from '../views/BookCity.vue'
 import Bookcase from '../views/Bookcase.vue'
 import search from '../views/search.vue'
 import classification from '../views/classification.vue'
+import classlist from '../views/classification/classlist.vue'
 import femaleclass from '../views/classification/femaleclass.vue'
 import maleclass from '../views/classification/maleclass.vue'
 import pictureclass from '../views/classification/pictureclass.vue'
@@ -56,6 +57,11 @@ const routes = [
     path: '/classification',
     name: 'classification',
     component:classification
+  },
+  {
+    path: '/classlist/:name/:class',
+    name: '/classlist',
+    component:classlist
   },
   {
     path: '/femaleclass/:id/:num',

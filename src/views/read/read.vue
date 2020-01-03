@@ -1,15 +1,11 @@
 <template>
-  <div ref="list" class="list list1" @click.stop="changePage">
+  <div ref="list" class="read-list list1" @click.stop="changePage">
     <div :class="[fontsize,readlist,linehight]">
       <div :class="{'readlistone':isPattern}">
         <div class="getshow"></div>
-
-
-        
         <div class="readtop">
-          <!-- <top v-show="flag" class="top" :title="bookcase.title" backgroundcolor="white" color="black" back="返回"></top> -->
           <van-nav-bar
-          class="navbar"
+            class="navbar"
             v-show="flag"
             :title="bookcase.title"
             left-text="返回"
@@ -19,31 +15,18 @@
             @click-right="getread(1
             
             )"
-          >
-            <!-- <van-icon name="search" slot="right" /> -->
-          </van-nav-bar>
+          ></van-nav-bar>
         </div>
-
         <a href name="top"></a>
-        <!-- <div>{{bookcase.title}}</div> -->
-        <!-- <button @click="get">下一章</button> -->
-        <!-- <button @click="addcase">加入书架</button> -->
-        <!-- {{this.$store.state.idx}}
-        {{this.$store.state.idx.bookId}}
-        {{}}-->
-        <!-- <div>{{conent.cpContent}}</div> -->
-
-        <!-- {{link}}
-        {{this.$store.state.bookCatalogList[2]}}-->
         <div class="wordtitle">
           <h3>{{conent.title}}</h3>
         </div>
-        <div class="spancword">{{conent.cpContent}}</div>
+        <div class="spancword" id="innerHTML">{{conent.cpContent}}</div>
         <div class="s"></div>
         <!-- <van-button type="primary" @click="getread(1) "><a href="#top">下一章</a></van-button> -->
         <!-- <a class="casea" href="#top" @click="getread(1) " >下一章</a> -->
         <div></div>
-        <van-tabbar class="redbottom" v-show="flag" v-model="active"     z-index="12222">
+        <van-tabbar class="redbottom" v-show="flag" v-model="active">
           <!-- <van-tabbar-item ico="orders-o">
     自定义
     <img
@@ -301,8 +284,9 @@ export default {
       axios.get(`https://novel.juhe.im/chapters/${this.li}`).then(res => {
         // console.log(1);
         // console.log(this.sourceId)
-        // console.log(res);
+        console.log(res);
         // console.log(this.li);
+
         this.conent = res.data.chapter;
       });
     }
@@ -327,17 +311,16 @@ export default {
 // .contfont1 {
 //
 // }
-.navbar i{
-  top: 2px
+.navbar i {
+  top: 2px;
 }
 .redbottom {
-      padding-bottom: 6px;
+  padding-bottom: 6px;
   // opacity: 0.75;
- 
 }
-.redbottom .van-tabbar-item__icon{
-    padding-left: 5px;
-    margin-bottom: 10px;
+.redbottom .van-tabbar-item__icon {
+  padding-left: 5px;
+  margin-bottom: 10px;
 }
 .readtop {
   position: fixed;
@@ -370,6 +353,7 @@ export default {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   text-align: left;
   text-indent: 2em;
+  height: 100%;
   //  line-height: 25px;
 }
 .linehight1 {
@@ -430,10 +414,10 @@ export default {
   text-align: left;
 }
 
-.list {
-  height: 100%;
+.read-list {
+  height: calc(100% + 44px);
   overflow: auto;
-  height: calc(90% - 10px);
+  // height: calc(90% - 10px);
 }
 
 .readlist1 {

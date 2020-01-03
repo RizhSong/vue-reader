@@ -1,13 +1,22 @@
 <template>
 <!-- <div > -->
  
-   <mt-header :title="title" :style="`backgroundColor:${backgroundcolor};color:${color}`" >
+   <!-- <mt-header :title="title" :style="`backgroundColor:${backgroundcolor};color:${color}`" >
   <router-link to="/" slot="left">
     <mt-button  @click="goBack" icon="back">{{back}}</mt-button>
   </router-link>
   
   <mt-button slot="right">{{right}}</mt-button>
-</mt-header>
+</mt-header> -->
+
+<van-nav-bar
+  :title="title"
+  :left-text="back"
+  left-arrow
+  @click-left="onClickLeft"
+  class="van-nav-bar"
+
+/>
     <!-- <div :style="`backgroundColor:${color}`"  @click="showTop">
         {{title}}
         <div v-if="$store.state.show" class="box"></div>
@@ -51,7 +60,7 @@ export default {
       
       this.$store.commit('setShow',true)
     },
-    goBack() {
+    onClickLeft() {
         this.$router.go(-1)
     }
   },
@@ -60,5 +69,10 @@ export default {
 }
 </script>
 <style lang="less" >
-
+.van-nav-bar .van-icon,.van-nav-bar__text  {
+    color: red;
+}
+.van-nav-bar {
+    height: 44px;
+}
 </style>

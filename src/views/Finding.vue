@@ -163,8 +163,8 @@ a .finding-btn {
 
 import mui from "@/../lib/mui/js/mui.min.js";
 export default {
-    data:{
-        return:{
+    data() {
+        return {
 
         }
     },

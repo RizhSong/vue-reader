@@ -55,7 +55,7 @@
     </div>
   </div>
 </template>
-<style lang="less" escope>
+<style lang="less" scoped>
 .booklist-content {
    overflow: hidden;
   // position: relative;
